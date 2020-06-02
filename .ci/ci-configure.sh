@@ -52,14 +52,10 @@ if [ "$DISTRO" != "" ] ; then
     OPTS="$OPTS $RELEASE_READY_LINUX_COPTS"
   elif [ "$1" = "coverity" ]; then
     OPTS="$OPTS $WAYLAND_LINUX_COPTS"
-    travis_fold start "cov-download"
-    docker exec --env COVERITY_SCAN_TOKEN=$COVERITY_SCAN_TOKEN $(cat $HOME/cid) sh -c '.ci/coverity-tools-install.sh'
-    travis_fold end "cov-download"
+    docker exec --env COVERITY_SCAN_TOKEN=$COVERITY_SCAN_TOKEN $(cat $HOME/cid) bash -c '.ci/coverity-tools-install.sh'
   elif [ "$1" = "mingw" ]; then
     OPTS="$OPTS $MINGW_COPTS"
-    travis_fold start "cross-native"
-    docker exec $(cat $HOME/cid) sh -c '.ci/bootstrap-efl-native-for-cross.sh'
-    travis_fold end "cross-native"
+    docker exec $(cat $HOME/cid) bash -c '.ci/bootstrap-efl-native-for-cross.sh'
   fi
 
   if [ "$1" = "asan" ]; then

@@ -103,9 +103,13 @@ before_install:
 before_script:
   - |
       if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$DISTRO" != "" ]]; then
+        travis_fold start "docker-pull"
+        travis_time_start "docker-pull"
         docker pull stefanschmidt1/ci-support-files:$DISTRO
         docker version
         docker run --cap-add SYS_PTRACE --cidfile $HOME/cid -t -d -v `pwd`:/src -v $HOME/.ccache:/root/.ccache -w /src stefanschmidt1/ci-support-files:$DISTRO bash
+        travis_time_finish "docker-pull"
+        travis_fold end "docker-pull"
       fi
   - |
       if [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$DISTRO" == "" ]]; then

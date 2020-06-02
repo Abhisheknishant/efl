@@ -5,7 +5,7 @@ set -e
 travis_fold start "ccache-setup"
 travis_time_start "ccache-setup"
 if [ "$DISTRO" != "" ] ; then
-  docker exec $(cat $HOME/cid)  sh -c ".ci/docker-ccache-setup.sh $1"
+  docker exec $(cat $HOME/cid)  bash -c ".ci/docker-ccache-setup.sh $1"
   docker exec $(cat $HOME/cid)  ccache -pz
 elif [ "$TRAVIS_OS_NAME" = "osx" ]; then
   cp .ci/ccache.conf ~/.ccache
